@@ -111,10 +111,10 @@ slide_signals <- function(pres, data) {
   
   
   # Moves the categorization slide to show after the potential signals
+  move_slide(pres, index = 7, to = 6)
   move_slide(pres, index = 8, to = 7)
   move_slide(pres, index = 9, to = 8)
   move_slide(pres, index = 10, to = 9)
-  move_slide(pres, index = 11, to = 10)
   
   pres
 }

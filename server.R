@@ -243,9 +243,24 @@ server <- function(input, output, session) {
       showConfirmButton = FALSE,
       showCancelButton = FALSE,
       imageUrl = "https://upload.wikimedia.org/wikipedia/commons/7/7a/Ajax_loader_metal_512.gif",
-      closeOnEsc = FALSE)
+      closeOnEsc = FALSE
+    )
     
-    tester <- signals_fil()
+    
+    
+    sf <<- signals_fil()
+    
+    sig_det <<- input_file_sig_detail()
+    
+    prod_trk <<- product_fil()
+    
+    prod_trk2 <<- product_fil2()
+    
+    eios_n <<- input$eios_info_num
+    inbox_n <<- input$inbox_info_num
+    signals_n <<- input$signals_info_num
+  
+    
     slides <- slide_run(sig = signals_fil(), 
                         sig.detail = input_file_sig_detail(), 
                         # sig.olympic = input_file_sig_olympic(), 
