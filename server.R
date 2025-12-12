@@ -266,7 +266,7 @@ server <- function(input, output, session) {
                         # sig.olympic = input_file_sig_olympic(), 
                         prod = product_fil(),
                         prod2 = product_fil2(),
-                        pres = pres, 
+                        # pres = pres, 
                         eios_num = input$eios_info_num, 
                         inbox_num = input$inbox_info_num,
                         signals_num = input$signals_info_num)
