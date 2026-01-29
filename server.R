@@ -26,12 +26,12 @@ server <- function(input, output, session) {
     if (is.null(input$upload_excel_dl2)) return(NULL)
     
     sig.detail0 <- readxl::read_xlsx(input$upload_excel_dl2$datapath,
-                                     sheet = 'Signal characterization rationa')
+                                     sheet = 'Signal Categorization v1.1')
     
     x <- tryCatch(
       readxl::read_xlsx(input$upload_excel_dl2$datapath,
                         col_types = c('date', rep('text', times=(ncol(sig.detail0)-1))),
-                        sheet = 'Signal characterization rationa') %>%
+                        sheet = 'Signal Categorization v1.1') %>%
         clean_names() %>%
         filter(!is.na(hazard)) %>%
         mutate(date = as.Date(date),

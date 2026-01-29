@@ -28,13 +28,13 @@ slide_title <- function(pres, data) {
   
   pres <- pres %>% 
     # ph_with(h1, value = h1, location = ph_location()) %>% 
-    add_slide(layout = "Title Layout", master = "WHE") %>% 
+    add_slide(layout = "Title Layout", master = "1_WHE") %>% 
     ph_with(value = h1, location = ph_location_type(type = "title")) %>% 
-    ph_with(value = h2, location = ph_location_type(type = "body", id = 1))
+    ph_with(value = h2, location = ph_location_type(type = "body", id = 2))
   
-  move_slide(pres, index = 6, to = 1)
+  move_slide(pres, index = 7, to = 1)
   
-  pres <- on_slide(pres, 5)
+  pres <- on_slide(pres, 6)
 
   pres
 }

@@ -17,10 +17,22 @@ slide_signals_new <- function(pres, sig.detail) {
       fp_text(font.size = 11, bold = FALSE, font.family = "Segoe Condensed", color = "white")
     ))
   
+  date_max = as.Date(Sys.Date())-1
+  if (wday(date_max, week_start = 1) == 1) {
+    date_max <- floor_date(date_max, "week", week_start = 1) - days(3)
+  }
   
-  sig.detail <- sig.detail %>% 
-    filter(date >= (as.Date(Sys.Date())-1))
+    
+  sig.detail <- sig.detail %>%
+    filter(date >= (date_max))
   
+  
+  # add filter for 4 days whenever the slides are generated on Tuesday! old unchanged code commented out above
+  # date_max = NA
+  # date_min = NA
+  # weekend_parse(as.Date(Sys.Date())-1)
+  # sig.detail <- sig.detail %>% 
+  #   filter(date >= date_min & date <= date_max)
   
   row1 <- sig.detail %>%
     # filter(!is.na(rtm_4)) %>%
@@ -52,6 +64,11 @@ slide_signals_new <- function(pres, sig.detail) {
     pull(hazard.country) %>% 
     paste('- ', ., collapse = '\n')
   
+  row6 <- sig.detail %>%
+    # filter(!is.na(disc)) %>%
+    filter(categorization == 'MENE') %>%
+    pull(hazard.country) %>% 
+    paste('- ', ., collapse = '\n')
   
   # Total number of signals - excluding duplicates
   n.signals <- nrow(sig.detail %>% 
@@ -65,9 +82,10 @@ slide_signals_new <- function(pres, sig.detail) {
                  'Request for information', 
                  'Real-time monitoring', 
                  'Shared for awareness',
-                 'Discard for HQ PHI'),
+                 'Discard for HQ PHI',
+                 'Monitored elsewhere \nno HQ PHI escalation needed'),
     # Title = c('Hazard, Member State', NA, NA, NA)) %>%
-    Title = c(row1, row2, row3, row4, row5)) %>%
+    Title = c(row1, row2, row3, row4, row5, row6)) %>%
     flextable() %>%
     add_header_lines(values = paste0('Signals/events (N=', n.signals, ')'), top = TRUE) %>%
     fontsize(size = 18, part='all') %>%
