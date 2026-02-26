@@ -14,9 +14,13 @@ signal_clean <- function(x) {
       monitoring = as.logical(ifelse(monitoring == "Ongoing", TRUE, FALSE)),
       across(c(phi_list), ~as.logical(replace_na(., 0))),
       # across(c(phi_list, whedaemm), ~as.logical(replace_na(., 0)))
-      across(c(phi_list), ~as.logical(replace_na(., 0)))
+      across(c(phi_list), ~as.logical(replace_na(., 0))), 
+      phi_list_date = case_when(
+        grepl("^\\d+$", phi_list_date) ~ 
+          as.Date(as.numeric(phi_list_date), origin = "1899-12-30"),
+        TRUE ~ as.Date(phi_list_date))
     ) %>% 
-    filter(modified_date <= Sys.Date(),
+    filter(as.Date(modified_date) <= Sys.Date(),
            # created_app == 'Signal HQ',
            # need to add RO awareness when available
            # monitoring | phi_list | whedaemm) %>%
@@ -66,7 +70,7 @@ signal_filter_date <- function(x, fil_date = NULL) {
   if (is.null(fil_date)) fil_date <- as_date(Sys.Date())-1
 
   x <- x %>% 
-    filter(as_date(created_date) %in% range(as_date(fil_date)-1, as_date(Sys.Date())))
+    filter(phi_list_date >= as_date(fil_date)-1 & phi_list_date <= as_date(Sys.Date()))
   
   if (nrow(x) == 0) return(NULL)
   

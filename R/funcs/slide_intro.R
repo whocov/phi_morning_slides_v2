@@ -1,6 +1,12 @@
 
-slide_intro <- function(pres, data, eios_num = 0, inbox_num = 0, signals_num = 0) {
+slide_intro <- function(pres, data, data2, eios_num = 0, inbox_num = 0, signals_num = 0) {
   
+  if (is.null(data)) {
+    data <- dplyr::tibble(phi_list_date = as.Date(character()))
+  }
+  if (is.null(data2)) {
+    data2 <- dplyr::tibble(date = as.Date(character()))
+  }
   # working_date <- as_date(max(data$modified_date, na.rm = TRUE))
   # 
   # date_lims <- weekend_parse(working_date)
@@ -49,8 +55,20 @@ slide_intro <- function(pres, data, eios_num = 0, inbox_num = 0, signals_num = 0
   # bp_1 <- fpar(ftext("***INSERT NUMBER***", bold_style),
   #              ftext(glue::glue(" pieces of information screened in EIOS within the last {round(time_int)} hours"), base_style))
   
-  # events_detected <- nrow(data)
-  events_detected <- signals_num
+  date_max <- as.Date(Sys.Date()) - 1
+  if (lubridate::wday(date_max, week_start = 1) == 1) {
+    date_max <- lubridate::floor_date(date_max, "week", week_start = 1) - lubridate::days(3)
+  }
+
+
+  data <- data %>%
+    dplyr::filter(.data$phi_list_date >= lubridate::as_date(date_max))
+  
+  data2 <- data2 %>%
+    dplyr::filter(.data$date >= date_max)
+  
+  events_detected <- nrow(data2)
+  #events_detected <- signals_num
   
   bp_2 <- fpar(ftext(events_detected, bold_style),
                ftext(" potential signals/signals/events assessed and triaged", base_style))
@@ -59,7 +77,9 @@ slide_intro <- function(pres, data, eios_num = 0, inbox_num = 0, signals_num = 0
   # bp_3 <- fpar(ftext("***INSERT NUMBER***", bold_style),
   #              ftext(" of signals/events under verification and follow up with ROs and partners", base_style))
   
-  sm_events <- ifelse(is.null(data),
+ 
+    
+  sm_events = ifelse(is.null(data),
                       0,
                       nrow(data))
   

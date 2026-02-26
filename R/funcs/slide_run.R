@@ -20,7 +20,7 @@ slide_run <- function(sig,
   # overview of number of signals
   pres <- pres %>% 
     # add intro slide
-    slide_intro(sig, eios_num, inbox_num, signals_num)
+    slide_intro(., sig, sig.detail, eios_num, inbox_num, signals_num)
   print("2")
   
   # slide 2 - signals  -----------------------------------------

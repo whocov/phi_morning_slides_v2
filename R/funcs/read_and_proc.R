@@ -85,7 +85,9 @@ proc_file_pt <- function(x) {
           "don_start_date",
           "daily_signal_tracker", 
           "daily_list",
-          "ems_entry"
+          "ems_entry",
+          "p_rra_start_date",
+          "p_rra_pub_date"
         ),
         ~as_date(as.double(.x), origin = ymd("1899-12-30"))),
       across(starts_with("need"), ~ifelse(str_to_upper(.) == "YES", TRUE, FALSE) %>% 
